@@ -36,10 +36,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// router.post("/", (req, res) => {
-//   // create a new tag
-// });
-
 // Create a new tag
 router.post("/", async (req, res) => {
   try {
