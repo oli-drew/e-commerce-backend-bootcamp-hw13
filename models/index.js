@@ -5,12 +5,36 @@ const Tag = require("./Tag");
 const ProductTag = require("./ProductTag");
 
 // Products belongsTo Category
+Products.belongsTo(Category, {
+  foreignKey: "category_id",
+});
 
 // Categories have many Products
+Categories.hasMany(Products, {
+  foreignKey: "category_id",
+});
 
 // Products belongToMany Tags (through ProductTag)
+Products.belongsToMany(Tags, {
+  // Define the third table needed to store the foreign keys
+  through: {
+    model: ProductTag,
+    unique: false,
+  },
+  // Define an alias for when data is retrieved
+  as: "product_tags",
+});
 
 // Tags belongToMany Products (through ProductTag)
+Tags.belongsToMany(Products, {
+  // Define the third table needed to store the foreign keys
+  through: {
+    model: ProductTag,
+    unique: false,
+  },
+  // Define an alias for when data is retrieved
+  as: "tagged_products",
+});
 
 module.exports = {
   Product,
@@ -18,35 +42,3 @@ module.exports = {
   Tag,
   ProductTag,
 };
-
-//
-// Reader.hasOne(LibraryCard, {
-//   foreignKey: 'reader_id',
-//   // When we delete a Reader, make sure to also delete the associated Library Card.
-//   onDelete: 'CASCADE',
-// });
-
-// LibraryCard.belongsTo(Reader, {
-//   foreignKey: 'reader_id',
-// });
-
-// //
-// Traveller.belongsToMany(Location, {
-//   // Define the third table needed to store the foreign keys
-//   through: {
-//     model: Trip,
-//     unique: false
-//   },
-//   // Define an alias for when data is retrieved
-//   as: 'planned_trips'
-// });
-
-// Location.belongsToMany(Traveller, {
-//   // Define the third table needed to store the foreign keys
-//   through: {
-//     model: Trip,
-//     unique: false
-//   },
-//   // Define an alias for when data is retrieved
-//   as: 'location_travellers'
-// });
